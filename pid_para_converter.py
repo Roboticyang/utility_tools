@@ -15,11 +15,19 @@ class Ui_Dialog(object):
     """
 
     def __init__(self):
-        self.__kp = 100
-        self.__ki = 0.01
-        self.__kd = 0.01
+        self.__kp = 250
+        self.__ki = 260
+        self.__kd = 90
         self.__ti = 0.01
         self.__td = 0.01
+
+        self._kp = 0.0
+        self._ki = 0.0
+        self._kd = 0.0
+        self._ti = 0.0
+        self._td = 0.0
+
+        self._updateornot = False
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -32,7 +40,7 @@ class Ui_Dialog(object):
         self.kp_box.setObjectName("kp_box")
         self.kp_box.valueChanged.connect(self.kp)
         self.kp_box.setRange(0, 400)
-        self.kp_box.setValue(100)
+        self.kp_box.setValue(self.__kp)
 
         self.ki_box = QtWidgets.QDoubleSpinBox(Dialog)
         self.ki_box.setGeometry(QtCore.QRect(185, 60, 80, 40))
@@ -40,14 +48,14 @@ class Ui_Dialog(object):
         self.ki_box.valueChanged.connect(self.ki)
         self.ki_box.setRange(0, 1000000)
         self.ki_box.setSingleStep(1)
-        self.ki_box.setValue(1000)
+        self.ki_box.setValue(self.__ki)
 
         self.kd_box = QtWidgets.QDoubleSpinBox(Dialog)
         self.kd_box.setGeometry(QtCore.QRect(310, 60, 80, 40))
         self.kd_box.setObjectName("kd_box")
         self.kd_box.valueChanged.connect(self.kd)
         self.kd_box.setRange(0, 100)
-        self.kd_box.setValue(1)
+        self.kd_box.setValue(self.__kd)
 
         self.ti_box = QtWidgets.QDoubleSpinBox(Dialog)
         self.ti_box.setGeometry(QtCore.QRect(50, 160, 100, 40))
@@ -56,7 +64,7 @@ class Ui_Dialog(object):
         self.ti_box.setRange(0, 3)
         self.ti_box.setSingleStep(0.0005)
         self.ti_box.setDecimals(5)
-        self.ti_box.setValue(0.01)
+        self.ti_box.setValue(self.__ti)
 
         self.td_box = QtWidgets.QDoubleSpinBox(Dialog)
         self.td_box.setGeometry(QtCore.QRect(290, 160, 100, 40))
@@ -65,7 +73,7 @@ class Ui_Dialog(object):
         self.td_box.setRange(0, 3)
         self.td_box.setSingleStep(0.0005)
         self.td_box.setDecimals(5)
-        self.td_box.setValue(0.01)
+        self.td_box.setValue(self.__td)
 
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setGeometry(QtCore.QRect(50, 40, 75, 20))
@@ -95,37 +103,74 @@ class Ui_Dialog(object):
         self.find_tid_cmd.setDefault(False)
         self.find_tid_cmd.clicked.connect(self.find_tid)
 
+        self.update_data_cmd = QtWidgets.QPushButton(Dialog)
+        self.update_data_cmd.setGeometry(QtCore.QRect(160, 430, 120, 35))
+        self.update_data_cmd.setObjectName("set_enable")
+        self.update_data_cmd.setDefault(False)
+        self.update_data_cmd.clicked.connect(self.set_enable)
+
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def kp(self):
-        print(f"The new Kp gain is set to {self.kp_box.value()}")
+        self._kp = self.kp_box.value()
+        # print(f"The new Kp gain is set to {self.kp_box.value()}")
 
     def ki(self):
-        print(f"The new Ki gain is set to {self.ki_box.value()}")
+        self._ki = self.ki_box.value()
+        # print(f"The new Ki gain is set to {self.ki_box.value()}")
 
     def kd(self):
-        print(f"The new Kd gain is set to {self.kd_box.value()}")
+        self._kd = self.kd_box.value()
+        # print(f"The new Kd gain is set to {self.kd_box.value()}")
 
     def ti(self):
-        print(f"The new Ti time is set to {self.ti_box.value()}")
+        self._ti = self.ti_box.value()
+        # print(f"The new Ti time is set to {self.ti_box.value()}")
 
     def td(self):
-        print(f"The new Td time is set to {self.td_box.value()}")
+        self._td = self.td_box.value()
+        # print(f"The new Td time is set to {self.td_box.value()}")
 
     def find_kid(self):
-        if self.ti_box.value() == 0:
-            self.ki_box.setValue(0.0)
-        else:
-            self.ki_box.setValue(self.kp_box.value() / self.ti_box.value() / 60.0)
-        self.kd_box.setValue(self.kp_box.value() * self.td_box.value() * 60.0)
+        """return the Ki and Kd based on Ti and Td inputs."""
+        if self._updateornot:
+            if self._ti == 0:
+                self._ki = 0
+            else:
+                self._ki = self._kp / self._ti / 60.0
+            self._kd = self._kp * self._td * 60
+            self.ki_box.setValue(self._ki)
+            self.kd_box.setValue(self._kd)
+            print("Press the Enable button again to make this button enabled!")
+            self.find_kid_cmd.setEnabled(False)
+            self.find_tid_cmd.setEnabled(False)
+            self.find_kid_cmd.setStyleSheet("background-color : rgb(169, 169, 169)")
+            self.find_tid_cmd.setStyleSheet("background-color : rgb(169, 169, 169)")
 
     def find_tid(self):
-        if self.ki_box.value() == 0:
-            self.ti_box.setValue(0.0)
-        else:
-            self.ti_box.setValue(self.kp_box.value() / self.ki_box.value() / 60.0)
-        self.td_box.setValue(self.kd_box.value() / self.kp_box.value() / 60.0)
+        """return the Ti and Td based on Ki and Kd inputs."""
+        if self._updateornot:
+            if self._ki == 0:
+                self._ti = 0
+            else:
+                self._ti = self._kp / self._ki / 60.0
+            self._td = self._kd / self._kp / 60.0
+            self.ti_box.setValue(self._ti)
+            self.td_box.setValue(self._td)
+            self._updateornot = False
+            print("Press the Enable button again to make this button enabled!")
+            self.find_kid_cmd.setEnabled(False)
+            self.find_tid_cmd.setEnabled(False)
+            self.find_kid_cmd.setStyleSheet("background-color : rgb(169, 169, 169)")
+            self.find_tid_cmd.setStyleSheet("background-color : rgb(169, 169, 169)")
+
+    def set_enable(self):
+        self._updateornot = True
+        self.find_kid_cmd.setStyleSheet("background-color : rgb(27, 232, 136)")
+        self.find_tid_cmd.setStyleSheet("background-color : rgb(27, 232, 136)")
+        self.find_kid_cmd.setEnabled(True)
+        self.find_tid_cmd.setEnabled(True)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -137,10 +182,14 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Kd in N*s/m"))
         self.label_3.setText(_translate("Dialog", "Ti in min"))
         self.label_4.setText(_translate("Dialog", "Td in min"))
+        self.update_data_cmd.setText(_translate("Dialog", "Enable Buttons"))
         self.find_kid_cmd.setText(_translate("Dialog", "Find Ki and Kd"))
-        self.find_kid_cmd.setStyleSheet("background-color : rgb(27, 232, 136)")
         self.find_tid_cmd.setText(_translate("Dialog", "Find Ti and Td"))
-        self.find_tid_cmd.setStyleSheet("background-color : rgb(27, 232, 136)")
+        self.update_data_cmd.setStyleSheet("background-color : rgb(27, 232, 136)")
+        self.find_kid_cmd.setStyleSheet("background-color : rgb(169, 169, 169)")
+        self.find_tid_cmd.setStyleSheet("background-color : rgb(169, 169, 169)")
+        self.find_kid_cmd.setEnabled(False)
+        self.find_tid_cmd.setEnabled(False)
         self.label.setStyleSheet("color : blue")
         self.label_1.setStyleSheet("color : blue")
         self.label_2.setStyleSheet("color : blue")
