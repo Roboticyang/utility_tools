@@ -29,7 +29,7 @@ class Ui_Dialog(object):
 
         self._updateornot = False
 
-    def setupUi(self, Dialog):
+    def setup_ui(self, Dialog):
         Dialog.setObjectName("Dialog")
         # Dialog.resize(537, 386)
         Dialog.resize(480, 500)
@@ -39,14 +39,14 @@ class Ui_Dialog(object):
         self.kp_box.setGeometry(QtCore.QRect(50, 60, 80, 40))
         self.kp_box.setObjectName("kp_box")
         self.kp_box.valueChanged.connect(self.kp)
-        self.kp_box.setRange(0, 400)
+        self.kp_box.setRange(0, 2000)
         self.kp_box.setValue(self.__kp)
 
         self.ki_box = QtWidgets.QDoubleSpinBox(Dialog)
         self.ki_box.setGeometry(QtCore.QRect(185, 60, 80, 40))
         self.ki_box.setObjectName("ki_box")
         self.ki_box.valueChanged.connect(self.ki)
-        self.ki_box.setRange(0, 1000000)
+        self.ki_box.setRange(0, 100000)
         self.ki_box.setSingleStep(1)
         self.ki_box.setValue(self.__ki)
 
@@ -54,7 +54,7 @@ class Ui_Dialog(object):
         self.kd_box.setGeometry(QtCore.QRect(310, 60, 80, 40))
         self.kd_box.setObjectName("kd_box")
         self.kd_box.valueChanged.connect(self.kd)
-        self.kd_box.setRange(0, 100)
+        self.kd_box.setRange(0, 1000)
         self.kd_box.setValue(self.__kd)
 
         self.ti_box = QtWidgets.QDoubleSpinBox(Dialog)
@@ -95,18 +95,21 @@ class Ui_Dialog(object):
         self.find_kid_cmd.setGeometry(QtCore.QRect(60, 380, 120, 35))
         self.find_kid_cmd.setObjectName("find_kid")
         self.find_kid_cmd.setDefault(False)
+        self.find_kid_cmd.setAutoDefault(False)
         self.find_kid_cmd.clicked.connect(self.find_kid)
 
         self.find_tid_cmd = QtWidgets.QPushButton(Dialog)
         self.find_tid_cmd.setGeometry(QtCore.QRect(260, 380, 120, 35))
         self.find_tid_cmd.setObjectName("find_tid")
         self.find_tid_cmd.setDefault(False)
+        self.find_tid_cmd.setAutoDefault(False)
         self.find_tid_cmd.clicked.connect(self.find_tid)
 
         self.update_data_cmd = QtWidgets.QPushButton(Dialog)
         self.update_data_cmd.setGeometry(QtCore.QRect(160, 430, 120, 35))
         self.update_data_cmd.setObjectName("set_enable")
         self.update_data_cmd.setDefault(False)
+        self.update_data_cmd.setAutoDefault(False)
         self.update_data_cmd.clicked.connect(self.set_enable)
 
         self.retranslateUi(Dialog)
@@ -201,6 +204,6 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     diag = QtWidgets.QDialog()
     gallery = Ui_Dialog()
-    gallery.setupUi(diag)
+    gallery.setup_ui(diag)
     diag.show()
     sys.exit(app.exec_())
