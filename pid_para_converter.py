@@ -32,7 +32,7 @@ class Ui_Dialog(object):
     def setup_ui(self, Dialog):
         Dialog.setObjectName("Dialog")
         # Dialog.resize(537, 386)
-        Dialog.resize(480, 500)
+        Dialog.resize(440, 500)
 
         # steer_angle, speed, control blocks
         self.kp_box = QtWidgets.QDoubleSpinBox(Dialog)
@@ -77,19 +77,23 @@ class Ui_Dialog(object):
 
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setGeometry(QtCore.QRect(50, 40, 75, 20))
-        self.label.setObjectName("label")  # angle
+        self.label.setObjectName("label")
         self.label_1 = QtWidgets.QLabel(Dialog)
         self.label_1.setGeometry(QtCore.QRect(185, 40, 85, 20))
-        self.label_1.setObjectName("label_1")  # speed
+        self.label_1.setObjectName("label_1")
         self.label_2 = QtWidgets.QLabel(Dialog)
         self.label_2.setGeometry(QtCore.QRect(310, 40, 85, 20))
-        self.label_2.setObjectName("label_2")  # angle_incre
+        self.label_2.setObjectName("label_2")
         self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setGeometry(QtCore.QRect(60, 140, 85, 20))
-        self.label_3.setObjectName("label_4")  # speed_incre
+        self.label_3.setObjectName("label_4")
         self.label_4 = QtWidgets.QLabel(Dialog)
         self.label_4.setGeometry(QtCore.QRect(300, 140, 85, 20))
-        self.label_4.setObjectName("label_4")  # speed_incre
+        self.label_4.setObjectName("label_4")
+
+        self.author_tag = QtWidgets.QLabel(Dialog)
+        self.author_tag.setGeometry(QtCore.QRect(330, 450, 130, 45))
+        self.author_tag.setObjectName("author_tag")
 
         self.find_kid_cmd = QtWidgets.QPushButton(Dialog)
         self.find_kid_cmd.setGeometry(QtCore.QRect(60, 380, 120, 35))
@@ -185,6 +189,7 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Kd in N*s/m"))
         self.label_3.setText(_translate("Dialog", "Ti in min"))
         self.label_4.setText(_translate("Dialog", "Td in min"))
+        self.author_tag.setText(_translate("Dialog", "Created:\nBob(Yang) W.\n@ U of Waterloo"))
         self.update_data_cmd.setText(_translate("Dialog", "Enable Buttons"))
         self.find_kid_cmd.setText(_translate("Dialog", "Find Ki and Kd"))
         self.find_tid_cmd.setText(_translate("Dialog", "Find Ti and Td"))
@@ -198,6 +203,9 @@ class Ui_Dialog(object):
         self.label_2.setStyleSheet("color : blue")
         self.label_3.setStyleSheet("color : red")
         self.label_4.setStyleSheet("color : red")
+        self.author_tag.setStyleSheet("color : black")
+
+        self.author_tag.setWordWrap(True)
 
 if __name__ == "__main__":
     import sys
