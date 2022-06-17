@@ -43,7 +43,7 @@ class Ui_Dialog(object):
         self.kp_box.setValue(self.__kp)
 
         self.ki_box = QtWidgets.QDoubleSpinBox(Dialog)
-        self.ki_box.setGeometry(QtCore.QRect(185, 60, 80, 40))
+        self.ki_box.setGeometry(QtCore.QRect(182, 60, 80, 40))
         self.ki_box.setObjectName("ki_box")
         self.ki_box.valueChanged.connect(self.ki)
         self.ki_box.setRange(0, 100000)
@@ -76,10 +76,10 @@ class Ui_Dialog(object):
         self.td_box.setValue(self.__td)
 
         self.label = QtWidgets.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(50, 40, 75, 20))
+        self.label.setGeometry(QtCore.QRect(50, 40, 85, 20))
         self.label.setObjectName("label")
         self.label_1 = QtWidgets.QLabel(Dialog)
-        self.label_1.setGeometry(QtCore.QRect(185, 40, 85, 20))
+        self.label_1.setGeometry(QtCore.QRect(182, 40, 85, 20))
         self.label_1.setObjectName("label_1")
         self.label_2 = QtWidgets.QLabel(Dialog)
         self.label_2.setGeometry(QtCore.QRect(310, 40, 85, 20))
