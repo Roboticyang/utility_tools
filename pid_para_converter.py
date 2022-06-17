@@ -39,7 +39,7 @@ class Ui_Dialog(object):
         self.kp_box.setGeometry(QtCore.QRect(50, 60, 80, 40))
         self.kp_box.setObjectName("kp_box")
         self.kp_box.valueChanged.connect(self.kp)
-        self.kp_box.setRange(0, 2000)
+        self.kp_box.setRange(0, 5000)
         self.kp_box.setValue(self.__kp)
 
         self.ki_box = QtWidgets.QDoubleSpinBox(Dialog)
