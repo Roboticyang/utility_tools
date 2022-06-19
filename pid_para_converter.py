@@ -1,15 +1,17 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-"""This is a small GUI for convert the PID parameters, using Kp value
+"""This is a petite GUI for convert the PID parameters, working with two versions:
+    1) Kp proprotional gain, Ki integral gain, Kd derivative gain.
+    2) Ti integral time in min, Td derivative time in min.
     Author: Yang Wang @ U of Waterloo Maglev lab
     Created: Mon 13 Jun 2022 01:37:24 PM EDT
     Modification: N/A
     Version: final"""
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 
 
-class Ui_Dialog(object):
+class UiDialog():
     """
     This is the ui dialog for the GUI
     """
@@ -31,10 +33,8 @@ class Ui_Dialog(object):
 
     def setup_ui(self, Dialog):
         Dialog.setObjectName("Dialog")
-        # Dialog.resize(537, 386)
         Dialog.resize(440, 500)
 
-        # steer_angle, speed, control blocks
         self.kp_box = QtWidgets.QDoubleSpinBox(Dialog)
         self.kp_box.setGeometry(QtCore.QRect(50, 60, 80, 40))
         self.kp_box.setObjectName("kp_box")
@@ -92,7 +92,7 @@ class Ui_Dialog(object):
         self.label_4.setObjectName("label_4")
 
         self.author_tag = QtWidgets.QLabel(Dialog)
-        self.author_tag.setGeometry(QtCore.QRect(330, 450, 130, 45))
+        self.author_tag.setGeometry(QtCore.QRect(320, 440, 130, 50))
         self.author_tag.setObjectName("author_tag")
 
         self.find_kid_cmd = QtWidgets.QPushButton(Dialog)
@@ -149,7 +149,7 @@ class Ui_Dialog(object):
             self._kd = self._kp * self._td * 60
             self.ki_box.setValue(self._ki)
             self.kd_box.setValue(self._kd)
-            print("Press the Enable button again to make this button enabled!")
+            print("Press \"Enable Buttons\" again to enable \"Find Ki Kd\" button!")
             self.find_kid_cmd.setEnabled(False)
             self.find_tid_cmd.setEnabled(False)
             self.find_kid_cmd.setStyleSheet("background-color : rgb(169, 169, 169)")
@@ -166,7 +166,7 @@ class Ui_Dialog(object):
             self.ti_box.setValue(self._ti)
             self.td_box.setValue(self._td)
             self._updateornot = False
-            print("Press the Enable button again to make this button enabled!")
+            print("Press \"Enable Buttons\" again to enable \"Find Ti Td\" button!")
             self.find_kid_cmd.setEnabled(False)
             self.find_tid_cmd.setEnabled(False)
             self.find_kid_cmd.setStyleSheet("background-color : rgb(169, 169, 169)")
@@ -183,7 +183,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate(
             "Dialog", "PID Parameter Converter Tool"))
-        # Dialog.setStyleSheet()
+        # Dialog.setStyleSheet() # use this to setup background of GUI
         self.label.setText(_translate("Dialog", "Kp in N/m"))
         self.label_1.setText(_translate("Dialog", "Ki in N/(m*s)"))
         self.label_2.setText(_translate("Dialog", "Kd in N*s/m"))
@@ -211,7 +211,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     diag = QtWidgets.QDialog()
-    gallery = Ui_Dialog()
+    gallery = UiDialog()
     gallery.setup_ui(diag)
     diag.show()
     sys.exit(app.exec_())
