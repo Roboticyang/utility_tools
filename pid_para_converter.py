@@ -3,6 +3,7 @@
 """This is a petite GUI for convert the PID parameters, working with two versions:
     1) Kp proprotional gain, Ki integral gain, Kd derivative gain.
     2) Ti integral time in min, Td derivative time in min.
+    Kd = Kp / Ti (s) Kd = Kp * Td (s)
     Author: Yang Wang @ U of Waterloo Maglev lab
     Created: Mon 13 Jun 2022 01:37:24 PM EDT
     Modification: N/A
